@@ -7,7 +7,12 @@ addr = (host, port)
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 while True:
-    data = raw_input("> ")
+    try:
+        data = raw_input("> ")
+    except EOFError:
+        print ""
+        sock.sendto("exit", addr)
+        break
     sock.sendto(data, addr)
     if data == "exit":
         break
